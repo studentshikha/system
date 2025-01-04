@@ -22,7 +22,7 @@ const allTimeSlots = [
   ];
 
 // API to create a booking
-app.post('/api/book', (req, res) => {
+app.post('/book', (req, res) => {
     const { name, contact, date, time, guests } = req.body;
 
     if (!name || !contact || !date || !time || !guests) {
@@ -56,7 +56,7 @@ app.post('/api/book', (req, res) => {
 
 
   // API to get all bookings
-  app.get('/api/bookings', (req, res) => {
+  app.get('/bookings', (req, res) => {
     res.json(bookings);
   });
   

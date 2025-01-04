@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+
+app.use(cors({ origin: ['http://localhost:3000', 'https://system-app-de6q.vercel.app'] }));
 app.use(express.json());
 let bookings = []; 
 
@@ -33,7 +34,9 @@ app.post('/api/book', (req, res) => {
     };
   
     // Check if the booking time slot is already taken
-    const isSlotTaken = bookings.some(b => b.date === date && b.time === time);
+    const isSlotTaken = bookings.some(b => 
+      b.date === date && b.time.toLowerCase() === time.toLowerCase()
+  );
     if (isSlotTaken) {
       return res.status(400).json({ success: false, message: 'This time slot is already booked. Please choose another.' });
     }
@@ -50,14 +53,14 @@ app.post('/api/book', (req, res) => {
     res.json(bookings);
   });
   
-  // API to delete a booking
-  app.delete('/api/book/:id', (req, res) => {
-    const { id } = req.params;
-    bookings = bookings.filter(b => b.id !== parseInt(id));
-    res.status(200).json({ message: 'Booking deleted successfully.' });
-  });
 
+  app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
 
-app.listen(7777 , ()=>{
-    console.log("server listen successfully")
-})
+// Listen on a dynamic port for Vercel
+const PORT = process.env.PORT || 7777;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

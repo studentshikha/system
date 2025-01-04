@@ -3,8 +3,15 @@ const app = express();
 const cors = require("cors");
 
 
-app.use(cors({ origin: "https://system-coral.vercel.app/" }));
+app.use(cors(
+     {
+          origin : [""],
+          methods : ["POST" , "GET"]
+     }
+));
 app.use(express.json());
+
+
 let bookings = []; 
 
 const allTimeSlots = [

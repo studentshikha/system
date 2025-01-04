@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 
 
-app.use(cors({ origin: ['http://localhost:3000', 'https://system-app-de6q.vercel.app'] }));
+app.use(cors({ origin: "https://system-coral.vercel.app/" }));
 app.use(express.json());
 let bookings = []; 
 
